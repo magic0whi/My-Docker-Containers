@@ -1,0 +1,36 @@
+version: "3.9"
+services:
+  bind-alpine:
+    build:
+      context: ./bind-alpine
+      dockerfile: Dockerfile
+      args:
+        BUILD_DATE: $$(date --iso-8601=ns)
+        VCS_REF: $$(printf "r%s.%s" "$$(git rev-list --count HEAD)" "$$(git rev-parse --short HEAD)")
+        HTTP_PROXY: "http://192.168.2.212:10801"
+        HTTPS_PROXY: "http://192.168.2.212:10801"
+    image: bind-alpine:latest
+    container_name: bind-alpine
+    hostname: dns
+    restart: unless-stopped
+    environment:
+      TZ: ${TZ:-Asia/Shanghai}
+    volumes:
+      - ./named.conf:/etc/bind/named.conf
+      - ./ndoskrnl.net.zone:/var/bind/ndoskrnl.net.zone
+    ports:
+      - 127.0.0.1:53:53/udp
+      - 192.168.2.212:53:53/udp
+      - 172.30.12.104:53:53/udp
+    networks:
+      - back-tier
+
+networks:
+  back-tier:
+    name: back-tier
+    attachable: true
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
+          aux_addresses:
+            dns: 172.20.0.2

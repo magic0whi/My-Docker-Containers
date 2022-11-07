@@ -1,0 +1,23 @@
+; Authoritative data for ndoskrnl.net zone
+;
+$TTL 2m
+$ORIGIN ndoskrnl.net.
+@         IN      SOA   ns01.ndoskrnl.net. proteus.ndoskrnl.net. (
+                  2022020801 ; Serial Number
+                  8h         ; Refresh
+                  30m        ; Retry
+                  1w         ; Expire
+                  1h )       ; Negative Cache TTL
+          IN      NS    ns01
+ns01      IN      A     172.30.12.104
+minecraft IN      A     172.30.12.104
+mail      IN      A     172.30.12.104
+; mail-server for example.com
+@   3600  IN  MX  1  mail.ndoskrnl.net.
+
+; Add SPF record
+@         IN TXT "v=spf1 mx ~all"
+mail._domainkey IN      TXT     ( "v=DKIM1; h=sha256; k=rsa; "
+          "p=MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAt5fKvVpq9TrtMsj4GE5wPt2N69MH2Qnsbkq4A4MlFvDOrP1HbKwFYUAfc5ludHVO6kNHBI6aDLy2ENoe45FKAVRbWL9OOw45vfFA0QAMDypvWazMg/tOIhiOMCGAtZiWsjII7FZSIBXKxSZL/RCkn6crwVmnk6v64n/t7K6vLXmM7txtQpVrZ3AbahuPr3e7MwE2Ejl2ZhitC1"
+          "RAkCEPNoGr3Scv3yGzpR/rPPxlFj7HzCb28IW/4GyqFemIY11yG9Wo4cKCP9i8Vt17PptygOVoXMldcWfRpYxEtjZktQ8WdCI5NVeJtHvrXNEunyj81pVempaq8p2Uvu+5qMQoOGn4yLQB07RUcnEI5Ik5mOcH+zziBEgurwlgLbROBnEYmevEZLqwgR6Qiw+DzZx0ylpKQ8lTyW9y3yVKjBeMkJK6ZzaKWCoteQeuqx+1lgCKfRuAT0DN"
+          "x9wTiPAbHxv1UKsbYEmbFT8eqdQsb2IILOiPujlgUHWBpALGYqgZRvTVUr/rTOtt9EBrfGAd1L4PEshNUWnKKq6MM6yUcj4rOrj/zFt0VnjIW7TpzvKK40vAgEeHKFlt0jUWt5DL4xS0a/NrKZdp2+yE84RQ6yKm5mnDn09+3+X+8JtiD840oEfiAYivT+qoW2D0yde8lpp0GohYyN36QfNWv9z/SinNUxMCAwEAAQ==" )  ; ----- DKIM key mail for ndoskrnl.net

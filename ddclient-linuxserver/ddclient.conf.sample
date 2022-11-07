@@ -1,0 +1,22 @@
+daemon=300				# check every 300 seconds
+syslog=yes				# log update msgs to syslog
+verbose=yes      # Enable verbose logging
+#mail=root				# mail all msgs to root
+#mail-failure=root			# mail failed update msgs to root
+pid=/var/run/ddclient/ddclient.pid	# record PID in file.
+ssl=yes 				# use ssl-support.  Works with
+
+#protocol=cloudflare,        \
+#zone=domain.tld,            \
+#ttl=1,                      \
+#login=your-login-email,     \
+#password=APIKey             \
+#domain.tld,my.domain.tld
+use=web, web=ipinfo.io/ip
+protocol=cloudflare,        \
+zone=ndoskrnl.net,            \
+ttl=1,                      \
+login=$CLOUDFLARE_EMAIL,     \
+password=$CLOUDFLARE_API_KEY \
+minecraft.ndoskrnl.net
+mail.ndoskrnl.net

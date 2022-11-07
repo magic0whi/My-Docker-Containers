@@ -1,0 +1,12 @@
+$TTL 2m
+$ORIGIN 3.9.9.9.0.6.a.5.c.6.2.3.6.0.a.8.4.0.3.8.d.ip6.arpa.
+@        IN    SOA    ns01.ndoskrnl.net. lollipop.studio.cn.gmail.com. (
+    2022030501
+    8h
+    30m
+    1w
+    1h
+    )
+        IN     NS     ns01.ndoskrnl.net.
+4.9.b.8.0.f.a.2.3.e       PTR ns01.ndoskrnl.net.
+4.9.b.8.0.f.a.2.3.e       PTR minecraft.ndoskrnl.net.

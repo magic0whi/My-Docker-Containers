@@ -1,0 +1,10 @@
+$ORIGIN 0-127.30.172.in-addr.arpa.
+@        IN    SOA    ns01.ndoskrnl.net. lollipop.studio.cn.gmail.com. (
+                 2022030501
+                 8h
+                 30m
+                 1w
+                 1h )
+         IN    NS     ns01.ndoskrnl.net.
+104.12   IN    PTR    ns01.ndoskrnl.net.
+104.12   IN    PTR    minecraft.ndoskrnl.net.

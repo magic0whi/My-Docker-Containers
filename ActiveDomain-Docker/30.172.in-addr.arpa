@@ -1,0 +1,13 @@
+; Authoritative data for ndoskrnl.net reverse zone
+;
+$TTL 2m
+$ORIGIN 30.172.in-addr.arpa.
+@             IN      SOA   ns01.ndoskrnl.net. lollipop.studio.cn.gmail.com. (
+                      2022030501 ; Serial Number
+                      8h         ; Refresh
+                      30m        ; Retry
+                      1w         ; Expire
+                      1h )       ; Negative Cache TTL
+                    NS      ns01.ndoskrnl.net.
+0-127               NS      ns01.ndoskrnl.net.
+$GENERATE 0-127 $   DNAME $.0-127

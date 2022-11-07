@@ -1,0 +1,13 @@
+version: "3.9"
+services:
+  hentaiathome:
+    container_name: h_at_h
+    image: disappear9/hentaiathome
+    env_file: ./secret.env
+    volumes:
+      - /mnt/storage2/hath/data:/hath/data
+      - /mnt/storage2/hath/download:/hath/download
+    network_mode: bridge
+    ports:
+      - 11451:11451
+    restart: unless-stopped

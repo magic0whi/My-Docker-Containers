@@ -1,0 +1,20 @@
+version: '3.9'
+services:
+  tftpd:
+    image: wastrachan/tftpd
+    container_name: tftpd
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - /mnt/storage1/tftp-data:/data
+    ports:
+      - 69:69/udp
+    restart: unless-stopped
+    networks:
+      - back-tier
+
+networks:
+  back-tier:
+    external: true
+    name: back-tier

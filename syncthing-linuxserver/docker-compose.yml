@@ -1,0 +1,27 @@
+version: '3.9'
+services:
+  syncthing:
+    image: lscr.io/linuxserver/syncthing
+    container_name: syncthing
+    hostname: Ndoskrnl-3 #optional
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Shanghai
+    volumes:
+      - /mnt/storage1/syncthing-config:/config
+      - /mnt/storage1/samba/proteus/sync:/data1
+      - /mnt/storage1/samba/proteus/sync-work:/data2
+    ports:
+      - 8384:8384
+      - 22000:22000/tcp
+      - 22000:22000/udp
+      - 21027:21027/udp
+    restart: unless-stopped
+    networks:
+      - back-tier
+
+networks:
+  back-tier:
+    external: true
+    name: back-tier

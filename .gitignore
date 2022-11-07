@@ -1,0 +1,8 @@
+docker-mailserver/docker-data/dms
+ddclient-linuxserver/config/custom-cont-init.d/
+ddclient-linuxserver/config/custom-services.d/
+ddclient-linuxserver/config/ddclient.conf
+xray/cert/*
+secret.env
+*.key
+tags

@@ -1,0 +1,14 @@
+version: "3"
+services: 
+    xray:
+        image: teddysun/xray
+        container_name: xray
+        restart: always
+        environment: 
+            TZ: Asia/Shanghai
+        ports: 
+            - 443:443
+        volumes: 
+            - ./config_server.json:/etc/xray/config.json
+#            - ./xray/logs:/var/log/xray
+            - ./cert:/cert

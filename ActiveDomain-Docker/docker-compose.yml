@@ -1,0 +1,94 @@
+version: "3.3"
+services:
+  samba-dc:
+    build:
+      context: ./samba-dc
+      dockerfile: Dockerfile
+      args:
+        BUILD_DATE: $$(date --iso-8601=ns)
+        VCS_REF: $$(printf "r%s.%s" "$$(git rev-list --count HEAD)" "$$(git rev-parse --short HEAD)")
+        HTTP_PROXY: "http://172.30.12.104:7890"
+        HTTPS_PROXY: "http://172.30.12.104:7890"
+    image: samba-dc:latest
+    container_name: samba-dc
+    restart: unless-stopped
+    network_mode: host
+    cap_add:
+      - CAP_SYS_ADMIN
+    #hostname: ${SAMBADC_HOSTNAME:Ndoskrnl-114514}
+    environment:
+      RUN_TYPE: "samba-dc"
+      DOMAIN_ACTION: "provision"
+      BIND_INTERFACES_ONLY: "yes"
+      INTERFACES: ${SAMBADC_INTERFACES:-lo ztqu3omxcs}
+      HOSTIP: "172.30.12.104"
+      HOSTIP6: "fd83:48a:632:6c5a:6099:93e3:2af0:8b94"
+      REALM: ${SAMBA_REALM:-GROUNDNET.NDOSKRNL.NET}
+      TZ: ${TZ:-Asia/Shanghai}
+      WORKGROUP: ${SAMBA_WORKGROUP:-GROUNDNET}
+      DNS_BACKEND: "BIND9_DLZ"
+    volumes:
+      - etc:/etc/samba
+      - lib:/var/lib/samba
+    ports:
+      - 88:88
+      - 88:88/udp
+      - 135:135
+      - 137-138:137-138/udp
+      - 139:139
+      - 389:389
+      - 389:389/udp
+      - 445:445
+      - 464:464
+      - 464:464/udp
+      - 636:636
+      - 3268-3269:3268-3269
+      - 49152-65535
+    secrets:
+      - samba-admin-password
+
+  bind-dc:
+    image: samba-dc:latest
+    container_name: bind-dc
+    restart: unless-stopped
+    network_mode: host
+    cap_add:
+      - CAP_SYS_ADMIN
+    environment:
+      RUN_TYPE: "bind-dc"
+      TZ: ${TZ:-Asia/Shanghai}
+    volumes:
+      - ./named.conf:/etc/bind/named.conf
+      - ./ndoskrnl.net.zone:/var/bind/ndoskrnl.net.zone
+      - ./30.172.in-addr.arpa:/var/bind/30.172.in-addr.arpa
+      - ./0-127.30.172.in-addr.arpa:/var/bind/0-127.30.172.in-addr.arpa
+      - ./3.9.9.9.0.6.a.5.c.6.2.3.6.0.a.8.4.0.3.8.d.ip6.arpa:/var/bind/3.9.9.9.0.6.a.5.c.6.2.3.6.0.a.8.4.0.3.8.d.ip6.arpa
+      - etc:/etc/samba
+      - lib:/var/lib/samba
+    ports:
+      - 53:53/udp
+
+  chrony-dc:
+    image: samba-dc:latest
+    container_name: chrony-dc
+    restart: unless-stopped
+    network_mode: host
+    cap_add:
+      - CAP_SYS_NICE
+      - CAP_SYS_TIME
+      - CAP_SYS_RESOURCE
+    environment:
+      RUN_TYPE: "chrony-dc"
+      TZ: ${TZ:-Asia/Shanghai}
+    volumes:
+      - ./chrony.conf:/etc/chrony/chrony.conf
+      - lib:/var/lib/samba
+    ports:
+      - 123:123/udp
+
+volumes:
+  etc:
+  lib:
+secrets:
+  samba-admin-password:
+    file: ./samba-admin-password.key
