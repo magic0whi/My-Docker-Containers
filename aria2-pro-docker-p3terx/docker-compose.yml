@@ -13,11 +13,10 @@ services:
       - IPV6_MODE=true
       - UPDATE_TRACKERS=true
       - CUSTOM_TRACKER_URL=
-      - TZ=Asia/Shanghai
     env_file: ./secret.env
     volumes:
-      - /mnt/storage1/aria2/config:/config
-      - /mnt/storage1/aria2/downloads:/downloads
+      - /mnt/storage3/aria2/config:/config
+      - /mnt/storage3/aria2/downloads:/downloads
 # If you use host network mode, then no port mapping is required.
 # This is the easiest way to use IPv6 networks.
     network_mode: host
@@ -26,9 +25,15 @@ services:
 #      - 6800:6800
 #      - 6888:6888
 #      - 6888:6888/udp
-    restart: unless-stopped
+    restart: no
 # Since Aria2 will continue to generate logs, limit the log size to 1M to prevent your hard disk from running out of space.
     logging:
       driver: json-file
       options:
         max-size: 1m
+    healthcheck:
+      test: ['CMD-SHELL', 'test -e /config/.mounted || s6-svscanctl -t /var/run/s6/services']
+      interval: 1s
+      timeout: 1s
+      retries: 1
+      start_period: 1s
